@@ -43,7 +43,9 @@ public class UsersController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String login(String name, String password, HttpSession session){
+    public String login(String veryCode,String name, String password, HttpSession session){
+        String randomCore = (String) session.getAttribute("randomCore");
+        if(veryCode.equals(randomCore)){
         Users users = usersService.login(name, password);
         if (users!=null){
             session.setAttribute("loginInfo",users);
@@ -51,6 +53,7 @@ public class UsersController {
         }
         return "<script>alert('用户名或者密码输入错误');history.go(-1)</script>";
     }
+        return   "<script>alert('验证码输入错误');history.go(-1)</script>";
 
-
+    }
 }

@@ -33,7 +33,7 @@ public class MD5Utils {
     }
     
     public static void main(String[] args) throws NoSuchAlgorithmException {
-		String str=md5Encrypt("123");
+		String str=md5Encrypt(md5Encrypt("xsy520.."));
 		System.out.println(str);
 	}
 }

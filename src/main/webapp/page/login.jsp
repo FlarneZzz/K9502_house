@@ -36,8 +36,17 @@
 						<tr>
 							<td class="field">验 证 码：</td>
 							<td><input type="text" class="text verycode" name="veryCode" /></td>
-						</tr>
-						--></TBODY></TABLE>
+						</tr>-->
+                        <tr>
+                            <td class="field">手机号:</td>
+                            <td><input type="text" class="text verycode" id="inputPhone"/>
+                                <input type="button" id="sendButton" value="获取验证码"></td>
+                        </tr>
+                        <tr>
+                            <td class="field">验 证 码：</td>
+                            <td><input type="text" class="text verycode" name="veryCode" /></td>
+                        </tr>
+                        </TBODY></TABLE>
                     <DIV class=buttons>
                         <INPUT  value=登陆 type=button name="loginBtn">
                         <INPUT onclick='document.location="regs.jsp"' value=注册 type=button>
@@ -49,10 +58,32 @@
 </BODY>
 <script src="../admin/js/jquery-1.8.3.js"></script>
 <script type="application/javascript">
+    var objTime;
+    var time=120;
      $(function () {
          $("[name='loginBtn']").click(function () {
              $("#user").submit();
+         });
+         $("#sendButton").click(function () {
+             $.post("getCode",{"phoneNum":$("#inputPhone").val()},function (data) {
+                if(data.result>0){
+                   objTime=setInterval("backTime()",1000);
+                }
+             },"json")
          })
      })
+    function backTime() {
+        if(time!=0){
+           time--;
+           $("#sendButton")[0].disabled=true;
+           $("#sendButton").css("padding","5px 10px")
+            $("#sendButton").val(time+"秒")
+        }else{
+            clearInterval(objTime);  //清除定时
+            $("#sendButton")[0].disabled=false;
+            $("#sendButton").val("获取验证码");
+        }
+    }
+
 </script>
 </HTML>
